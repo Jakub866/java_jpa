@@ -1,16 +1,15 @@
 package com.jpacourse.persistence.entity;
 
-import java.time.LocalDate;
+import com.jpacourse.dto.VisitTO;
+import com.jpacourse.persistence.enums.Gender;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name = "PATIENT")
+@Table(name = "patient")
 public class PatientEntity {
 
 	@Id
@@ -24,15 +23,28 @@ public class PatientEntity {
 	private String lastName;
 
 	@Column(nullable = false)
-	private String telephoneNumber;
+	private long telephoneNumber;
 
 	private String email;
 
 	@Column(nullable = false)
-	private String patientNumber;
+	private long patientNumber;
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
+
+	//Relacja jednostronna: rodzic wie o dziecku. Encja doktora zna adres
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "address_id", nullable = true)
+	private AddressEntity address;
+
+	//Relacja jednostronna: rodzic wie o dziecku. Encja pacjent zna przypisane mu wizyty
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VisitEntity> visits;
 
 	public Long getId() {
 		return id;
@@ -58,11 +70,11 @@ public class PatientEntity {
 		this.lastName = lastName;
 	}
 
-	public String getTelephoneNumber() {
+	public long getTelephoneNumber() {
 		return telephoneNumber;
 	}
 
-	public void setTelephoneNumber(String telephoneNumber) {
+	public void setTelephoneNumber(long telephoneNumber) {
 		this.telephoneNumber = telephoneNumber;
 	}
 
@@ -74,11 +86,11 @@ public class PatientEntity {
 		this.email = email;
 	}
 
-	public String getPatientNumber() {
+	public long getPatientNumber() {
 		return patientNumber;
 	}
 
-	public void setPatientNumber(String patientNumber) {
+	public void setPatientNumber(long patientNumber) {
 		this.patientNumber = patientNumber;
 	}
 
@@ -90,4 +102,20 @@ public class PatientEntity {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+
+	public void setAddress(AddressEntity addressEntity) {this.address = addressEntity;}
+
+	public AddressEntity getAddress() {return this.address;}
+
+	public void setVisits(List<VisitEntity> visitEntityList) {this.visits = visitEntityList;}
+
+	public List<VisitEntity> getVisits() {return this.visits;}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
 }

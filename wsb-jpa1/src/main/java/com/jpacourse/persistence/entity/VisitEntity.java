@@ -1,16 +1,16 @@
 package com.jpacourse.persistence.entity;
 
+import org.springframework.lang.Nullable;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "VISIT")
+@Table(name = "visit")
 public class VisitEntity {
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "patient_id", nullable = false)
-	private PatientEntity patient;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +20,19 @@ public class VisitEntity {
 
 	@Column(nullable = false)
 	private LocalDateTime time;
+
+	@ManyToOne()
+	@JoinColumn(name = "doctor_id", nullable = false)
+	private DoctorEntity doctor;
+	//Wizyta wie o leczeniu (treatment). Relacja dwustronna
+
+	@OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
+	@Nullable
+	private List<MedicalTreatmentEntity> medicalTreatments;
+
+	@ManyToOne
+	@JoinColumn(name = "patient_id", nullable = false)
+	private PatientEntity patient;
 
 	public Long getId() {
 		return id;
@@ -43,6 +56,21 @@ public class VisitEntity {
 
 	public void setTime(LocalDateTime time) {
 		this.time = time;
+	}
+
+	public List<MedicalTreatmentEntity> getMedicalTreatments() {
+		return medicalTreatments != null ? medicalTreatments : new ArrayList<>();
+	}
+	public void setMedicalTreatments(List<MedicalTreatmentEntity> medicalTreatments) {
+		this.medicalTreatments = medicalTreatments;
+	}
+
+	public void setDoctor(DoctorEntity doctor) {
+		this.doctor = doctor;
+	}
+
+	public DoctorEntity getDoctor() {
+		return doctor;
 	}
 
     public PatientEntity getPatient() {

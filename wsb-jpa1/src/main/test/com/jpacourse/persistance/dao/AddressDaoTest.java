@@ -13,8 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AddressDaoTest
-{
+public class AddressDaoTest {
+
     @Autowired
     private AddressDao addressDao;
 
@@ -22,6 +22,7 @@ public class AddressDaoTest
     @Test
     public void testShouldFindAddressById() {
         // given
+        // Dane które są w bazie danych dla id 1
         // when
         AddressEntity addressEntity = addressDao.findOne(1L);
         // then
@@ -45,7 +46,7 @@ public class AddressDaoTest
         // then
         assertThat(saved).isNotNull();
         assertThat(saved.getId()).isNotNull();
-        assertThat(addressDao.count()).isEqualTo(entitiesNumBefore+1);
+        assertThat(addressDao.count()).isEqualTo(entitiesNumBefore + 1);
     }
 
     @Transactional
@@ -70,6 +71,4 @@ public class AddressDaoTest
         final AddressEntity removed = addressDao.findOne(saved.getId());
         assertThat(removed).isNull();
     }
-
-
 }

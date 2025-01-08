@@ -2,17 +2,11 @@ package com.jpacourse.persistence.entity;
 
 import com.jpacourse.persistence.enums.Specialization;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "DOCTOR")
+@Table(name = "doctor")
 public class DoctorEntity {
 
 	@Id
@@ -26,16 +20,25 @@ public class DoctorEntity {
 	private String lastName;
 
 	@Column(nullable = false)
-	private String telephoneNumber;
+	private long telephoneNumber;
 
 	private String email;
 
 	@Column(nullable = false)
-	private String doctorNumber;
+	private long doctorNumber;
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
+
+	//Relacja jednostronna: rodzic wie o dziecku. Encja doktora zna adres
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "address_id", nullable = true)
+	private AddressEntity address;
+
+	//Relacja dwustronna: rodzic wie o dziecku i odwrotnie. Encja doktor zna przypisane mu wizyty a wizyty znaja przypisanego im lekarza
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VisitEntity> visits;
 
 	public Long getId() {
 		return id;
@@ -61,11 +64,11 @@ public class DoctorEntity {
 		this.lastName = lastName;
 	}
 
-	public String getTelephoneNumber() {
+	public long getTelephoneNumber() {
 		return telephoneNumber;
 	}
 
-	public void setTelephoneNumber(String telephoneNumber) {
+	public void setTelephoneNumber(long telephoneNumber) {
 		this.telephoneNumber = telephoneNumber;
 	}
 
@@ -77,11 +80,11 @@ public class DoctorEntity {
 		this.email = email;
 	}
 
-	public String getDoctorNumber() {
+	public long getDoctorNumber() {
 		return doctorNumber;
 	}
 
-	public void setDoctorNumber(String doctorNumber) {
+	public void setDoctorNumber(long doctorNumber) {
 		this.doctorNumber = doctorNumber;
 	}
 
@@ -93,4 +96,11 @@ public class DoctorEntity {
 		this.specialization = specialization;
 	}
 
+	public void setAddress(AddressEntity addressEntity) {this.address = addressEntity;}
+
+	public AddressEntity getAddress() {return this.address;}
+
+	public void setVisits(List<VisitEntity> visitEntityList) {this.visits = visitEntityList;}
+
+	public List<VisitEntity> getVisits() {return this.visits;}
 }

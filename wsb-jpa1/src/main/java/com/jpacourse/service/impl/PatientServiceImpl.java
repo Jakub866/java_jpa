@@ -21,6 +21,10 @@ public class PatientServiceImpl implements PatientService
     private final PatientDao patientDao;
     private final VisitDao visitDao;
 
+    @Override
+    public List<PatientEntity> findPatientsByLastName(String lastName) {
+        return patientDao.findByLastName(lastName);
+    }
     @Autowired
     public PatientServiceImpl(PatientDao patientDao, VisitDao visitDao)
     {

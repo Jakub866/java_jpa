@@ -1,0 +1,7 @@
+### Query patients by last name
+GET http://localhost:8091/patients?lastName=Smith
+Accept: application/json
+
+### Query patients by id
+GET http://localhost:8091/patient/1
+Accept: application/json

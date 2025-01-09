@@ -8,6 +8,7 @@ import com.jpacourse.rest.exception.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao
@@ -33,5 +34,11 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
 
         patient.getVisits().add(visit);
         entityManager.merge(patient);
+    }
+    @Override
+    public List<PatientEntity> findByLastName(String lastName) {
+        return entityManager.createQuery("SELECT p FROM PatientEntity p WHERE p.lastName = :lastName", PatientEntity.class)
+                .setParameter("lastName", lastName)
+                .getResultList();
     }
 }

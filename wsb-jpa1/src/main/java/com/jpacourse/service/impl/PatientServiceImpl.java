@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -21,10 +22,16 @@ public class PatientServiceImpl implements PatientService
     private final PatientDao patientDao;
     private final VisitDao visitDao;
 
+
     @Override
-    public List<PatientEntity> findPatientsByLastName(String lastName) {
-        return patientDao.findByLastName(lastName);
+    public List<PatientTO> findPatientsByLastName(String lastName) {
+        List<PatientEntity> patients = patientDao.findByLastName(lastName);
+
+        return patients.stream()
+                .map(PatientMapper::mapToTO)
+                .collect(Collectors.toList());
     }
+
     @Autowired
     public PatientServiceImpl(PatientDao patientDao, VisitDao visitDao)
     {
@@ -52,6 +59,24 @@ public class PatientServiceImpl implements PatientService
 
             patientDao.delete(id);
         }
+    }
+
+    @Override
+    public List<PatientTO> findPatientsWithMoreThanXVisits(int x) {
+        List<PatientEntity> patients = patientDao.findPatientsWithMoreThanXVisits(x);
+
+        return patients.stream()
+                .map(PatientMapper::mapToTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PatientTO> findIfGenderContainsAKeyWord(String keyWord) {
+        List<PatientEntity> patients = patientDao.findIfGenderContainsAKeyWord(keyWord);
+
+        return patients.stream()
+                .map(PatientMapper::mapToTO)
+                .collect(Collectors.toList());
     }
 
 }

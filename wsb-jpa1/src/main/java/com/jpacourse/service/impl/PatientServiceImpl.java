@@ -2,7 +2,6 @@ package com.jpacourse.service.impl;
 
 import com.jpacourse.dto.PatientTO;
 import com.jpacourse.mapper.PatientMapper;
-import com.jpacourse.mapper.VisitMapper;
 import com.jpacourse.persistence.dao.PatientDao;
 import com.jpacourse.persistence.dao.VisitDao;
 import com.jpacourse.persistence.entity.PatientEntity;
@@ -62,15 +61,6 @@ public class PatientServiceImpl implements PatientService
     }
 
     @Override
-    public List<PatientTO> findPatientsWithMoreThanXVisits(int x) {
-        List<PatientEntity> patients = patientDao.findPatientsWithMoreThanXVisits(x);
-
-        return patients.stream()
-                .map(PatientMapper::mapToTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<PatientTO> findIfGenderContainsAKeyWord(String keyWord) {
         List<PatientEntity> patients = patientDao.findIfGenderContainsAKeyWord(keyWord);
 
@@ -79,5 +69,13 @@ public class PatientServiceImpl implements PatientService
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<PatientTO> findPatientsWithMoreThanXVisits(int x) {
+        List<PatientEntity> patients = patientDao.findPatientsWithMoreThanXVisits(x);
+
+        return patients.stream()
+                .map(PatientMapper::mapToTO)
+                .collect(Collectors.toList());
+    }
 }
 

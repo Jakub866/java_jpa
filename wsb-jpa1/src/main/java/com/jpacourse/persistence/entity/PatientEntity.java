@@ -1,6 +1,5 @@
 package com.jpacourse.persistence.entity;
 
-import com.jpacourse.dto.VisitTO;
 import com.jpacourse.persistence.enums.Gender;
 
 import java.time.LocalDate;

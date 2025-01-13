@@ -42,23 +42,23 @@ class Lab03PatientDaoTest {
     @BeforeEach
     void setUp() {
         DoctorEntity doctor1 = new DoctorEntity();
-        doctor1.setFirstName("John");
-        doctor1.setLastName("Smith");
+        doctor1.setFirstName("Jan");
+        doctor1.setLastName("Kowalczyk");
         doctor1.setDoctorNumber(123456L);
         doctor1.setTelephoneNumber(123456L);
         doctor1.setSpecialization(Specialization.OCULIST);
         doctorDao.save(doctor1);
 
         PatientEntity patient1 = new PatientEntity();
-        patient1.setFirstName("Jane");
-        patient1.setLastName("Doe");
+        patient1.setFirstName("Janina");
+        patient1.setLastName("Dobromira");
         patient1.setDateOfBirth(LocalDate.of(1990, 1, 1));
         patient1.setGender(Gender.MALE);
 
 
         PatientEntity patient2 = new PatientEntity();
-        patient2.setFirstName("Jane");
-        patient2.setLastName("Smith");
+        patient2.setFirstName("Jelena");
+        patient2.setLastName("Kazmirov");
         patient2.setDateOfBirth(LocalDate.of(2000, 1, 1));
 
         patient2.setGender(Gender.FEMALE);
@@ -94,7 +94,7 @@ class Lab03PatientDaoTest {
     @Test
     void findByLastName_shouldReturnPatientsWithGivenLastName() {
         // Given
-        String lastName = "Doe";
+        String lastName = "Daniłowska";
 
         // When
         List<PatientEntity> patients = patientDao.findByLastName(lastName);

@@ -34,17 +34,17 @@ class PatientDaoTest {
         Long patientId = 1L;
         Long doctorId = 2L;
         LocalDateTime visitDate = LocalDateTime.now();
-        String visitDescription = "Routine checkup";
+        String visitDescription = "Rutynowa kontrola";
 
         PatientEntity patientEntity = new PatientEntity();
         patientEntity.setId(patientId);
-        patientEntity.setFirstName("Jane");
-        patientEntity.setLastName("Doe");
+        patientEntity.setFirstName("Janina");
+        patientEntity.setLastName("Daniłowksa");
 
         DoctorEntity doctorEntity = new DoctorEntity();
         doctorEntity.setId(doctorId);
-        doctorEntity.setFirstName("John");
-        doctorEntity.setLastName("Smith");
+        doctorEntity.setFirstName("Jan");
+        doctorEntity.setLastName("Gołąb");
 
         when(patientDao.findOne(patientId)).thenReturn(patientEntity);
 
